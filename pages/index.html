@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+    <meta name="description" content="GitHub pages with JSON files review tool" />
+    <meta charset="utf-8" />
+    <title>JSON review tool</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="" />
+    <style> </style>
+</head>
+
+<body>
+    <p>
+        Cookie disclaimer:
+        This page does not use cookies.
+        This page does not save any user data.
+        This page is not any comercial page.
+        Source code is avaliable here: https://github.com/adrianscheit/web-json-viewer
+    </p>
+    <h1>WEB JSON viewer</h1>
+    <ul>
+        <li>All data are processed in the browser</li>
+        <li>The results are shown in the browser Console, to open it right click and click on "Inspect" and then on
+            "Console" tab</li>
+    </ul>
+    <form>
+        <label>Select a JSON file: <input type="file" required accept=".json" /></label>
+    </form>
+    <p id="status">Status: </p>
+
+    <script>
+        let result;
+        const statusText = document.getElementById('status').appendChild(document.createTextNode(''));
+
+        export const setStatus = async (v) => {
+            console.log(v);
+            statusText.nodeValue = v;
+            await new Promise((resolve) => setTimeout(resolve, 20))
+        };
+
+        document.querySelector('input[type=file]').addEventListener('input', async (event) => {
+            const files = event.target.files;
+            if (files.length === 1) {
+                setStatus(`Reading a text file of ${files[0].size}B...`);
+                const reader = new FileReader();
+                reader.onload = () => {
+                    result = JSON.parse(reader.result);
+                    console.log(result);
+                    setStatus('All the data are loaded in the console and are avaliable in `result` global variable');
+                };
+                reader.onerror = (e) => setStatus('Error occured: ' + e);
+                reader.readAsText(files[0]);
+            }
+        });
+
+    </script>
+</body>
+
+</html>
