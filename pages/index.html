@@ -34,7 +34,7 @@
         let result;
         const statusText = document.getElementById('status').appendChild(document.createTextNode(''));
 
-        export const setStatus = async (v) => {
+        const setStatus = async (v) => {
             console.log(v);
             statusText.nodeValue = v;
             await new Promise((resolve) => setTimeout(resolve, 20))
